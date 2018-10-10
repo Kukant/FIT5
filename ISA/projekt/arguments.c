@@ -71,9 +71,31 @@ struct Arguments parse_params(int argc, char *argv[]) {
         strcpy(args.url, argv[optind]);
     }
 
+    parse_url(&args);
+
     return args;
 }
 
 void print_help() {
     printf("Usage: feedreader <URL | -f <feedfile>> [-c <certfile>] [-C <certaddr>] [-T] [-a] [-u]\n");
+}
+
+void parse_url(struct Arguments *args) {
+    char *url = args->url;
+    args->port = 80;
+    strcpy(args->page, "/");
+    bool success = false;
+    if (sscanf(url, "http://%99[^:]:%i/%199[^\n]", args->ip, &args->port, args->page) == 3) {
+        success = true;
+    } else if (sscanf(url, "http://%99[^/]/%199[^\n]", args->ip, args->page) == 2) {
+        success = true;
+    } else if (sscanf(url, "http://%99[^:]:%i[^\n]", args->ip, &args->port) == 2) {
+        success = true;
+    } else if (sscanf(url, "http://%99[^\n]", args->ip) == 1) {
+        success = true;
+    }
+
+    if (!success) {
+        args->ok = false;
+    }
 }

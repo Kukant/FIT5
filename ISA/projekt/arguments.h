@@ -22,10 +22,16 @@ struct Arguments {
     bool show_author; // -a
     bool show_url; // -u
     bool ok;
+    char ip[STRING_LENGHT];
+    char page[STRING_LENGHT];
+    int port;
+
 };
 
 struct Arguments parse_params(int argc, char *argv[]);
 
 void print_help();
+
+void parse_url(struct Arguments *args);
 
 #endif //PROJEKT_ARGUMENTS_H
