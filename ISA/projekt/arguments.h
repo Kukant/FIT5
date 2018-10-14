@@ -5,27 +5,27 @@
 #ifndef PROJEKT_ARGUMENTS_H
 #define PROJEKT_ARGUMENTS_H
 
-#include <stdbool.h>
-#include <stdio.h>
 #include <getopt.h>
 #include <string.h>
+#include <iostream>
 
 #define STRING_LENGHT 128
 
 struct Arguments {
-    char feedfile[STRING_LENGHT]; // -f
-    char url[STRING_LENGHT]; // argument
+    std::string feedfile; // -f
+    std::string url; // argument
     bool use_url;
-    char certfile[STRING_LENGHT]; // -c
-    char certaddr[STRING_LENGHT]; // -C
+    std::string certfile; // -c
+    std::string certaddr; // -C
+    std::string cert_location;
     bool show_time; // -T
     bool show_author; // -a
     bool show_url; // -u
     bool ok;
-    char ip[STRING_LENGHT];
-    char page[STRING_LENGHT];
+    std::string ip;
+    std::string page;
     int port;
-
+    bool use_ssl;
 };
 
 struct Arguments parse_params(int argc, char *argv[]);

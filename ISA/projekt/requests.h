@@ -6,8 +6,13 @@
 #define PROJEKT_REQUESTS_H
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <stdio.h>
-#include <openssl/bio.h>
 
-BIO *create_connection(char *hostname, in_port_t port);
+#include "openssl/bio.h"
+#include "openssl/ssl.h"
+#include "openssl/err.h"
+
+#include "arguments.h"
+
+std::string get_response(std::string &request, struct Arguments args);
+
 #endif //PROJEKT_REQUESTS_H
