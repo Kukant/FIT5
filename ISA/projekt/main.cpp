@@ -1,7 +1,7 @@
 #include <iostream>
 #include "arguments.h"
 #include "requests.h"
-#include "atom_reader.h"
+#include "xml_reader.h"
 
 int main(int argc, char **argv) {
 
@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
     std::string response_head = response.substr(0, end_of_head + 4);
     std::string response_body = response.substr(end_of_head + 4);
 
-    processAtom(response_body, args);
+    processXml(response_body, args);
 
     //std::cout << "Response: \n" << response;
 
