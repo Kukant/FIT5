@@ -39,18 +39,46 @@ int processXml(std::string file, struct Arguments args) {
     return 0;
 }
 
+void printArticle(string & title, string & url, string & author, string & time) {
+    if (!title.empty()) {
+        cout << title << endl;
+    }
+    if (!url.empty()) {
+        cout << "URL: " << url << endl;
+    }
+    if (!author.empty()) {
+        cout << "Autor: " << author << endl;
+    }
+    if (!time.empty()) {
+        cout << "Aktualizace: " << time << endl;
+    }
+};
+
 void RSSprocessItem(xmlNode* item, struct Arguments args) {
     xmlNode* tmp = nullptr;
     string name;
+    string title, url, author, time;
     for (tmp = item->children; tmp; tmp = tmp->next) {
         name = (char *) tmp->name;
         if (name == "title") {
-            cout << tmp->children->content << endl;
+            title = (char *) tmp->children->content;
         } else if (args.show_url && name == "link") {
-            cout << "URL: " << tmp->children->content << endl;
+            url = (char *) tmp->children->content;
+        } else if (args.show_author && name == "author") {
+            author =  (char *) tmp->children->content;
+        } else if (args.show_time && name == "pubDate") {
+            time = (char *) tmp->children->content;
         }
     }
+
+    printArticle(title, url, author, time);
+
+    if (args.show_time || args.show_author || args.show_url) {
+        cout << endl;
+    }
 }
+
+
 
 void RSSprocessChannel(xmlNode* channel, struct Arguments args){
     xmlNode* tmp = nullptr;
@@ -77,26 +105,50 @@ int processRSS(xmlNode* rss, struct Arguments args) {
     return 0;
 }
 
-void AtomProcessLink(xmlNode* link) {
+string AtomGetLink(xmlNode* link) {
     xmlAttr* tmp = nullptr;
     for (tmp = link->properties; tmp; tmp = tmp->next) {
         string name((char *) tmp->name);
         if (name == "href") {
-            cout << "URL: " << (char *)tmp->children->content << endl;
-            return;
+            return (char *)tmp->children->content;
         }
     }
+
+    return "";
+}
+
+string AtomGetAuthor(xmlNode* author) {
+    xmlNode* tmp = nullptr;
+    for (tmp = author->children; tmp; tmp = tmp->next) {
+        string name((char *) tmp->name);
+        if (name == "name" || name == "email") {
+            return (char *)tmp->children->content;
+        }
+    }
+
+    return "";
 }
 
 void AtomProcessEntry(xmlNode* entry, struct Arguments args) {
     xmlNode* tmp = nullptr;
+    string title, url, author, time;
     for (tmp = entry->children; tmp; tmp = tmp->next) {
         string name((char *) tmp->name);
         if (name == "title") {
-            cout << (char *)tmp->children->content << endl;
+            title = (char *)tmp->children->content;
         } else if (args.show_url && name == "link") {
-            AtomProcessLink(tmp);
+            url = AtomGetLink(tmp);
+        } else if (args.show_author && name == "author") {
+            author =  AtomGetAuthor(tmp);
+        } else if (args.show_time && name == "updated") {
+            time = (char *) tmp->children->content;
         }
+    }
+
+    printArticle(title, url, author, time);
+
+    if (args.show_time || args.show_author || args.show_url) {
+        cout << endl;
     }
 }
 
@@ -115,3 +167,6 @@ int processAtom(xmlNode* feed, struct Arguments args) {
 void printTitle(char* title) {
     cout << "*** " << title << " ***" << endl;
 }
+
+
+

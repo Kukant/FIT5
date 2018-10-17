@@ -12,7 +12,7 @@
 #include "openssl/err.h"
 
 #include "arguments.h"
-
-std::string get_response(std::string &request, struct Arguments args);
+using namespace std;
+string get_response(string url, struct Arguments args);
 
 #endif //PROJEKT_REQUESTS_H

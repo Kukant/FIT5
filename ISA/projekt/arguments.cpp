@@ -6,6 +6,7 @@
 
 struct Arguments parse_params(int argc, char *argv[]) {
     struct Arguments args;
+    memset(&args, 0, sizeof(struct Arguments));
     args.ok = true;
     args.use_url = true;
     int c;
@@ -38,7 +39,7 @@ struct Arguments parse_params(int argc, char *argv[]) {
     }
 
     if (!args.use_url && optind < argc){
-        std::cerr << "Unexpected argument: %s.\n", argv[optind];
+        std::cerr << "Unexpected argument:" << argv[optind] << std::endl;
         args.ok = false;
         return args;
     }
@@ -63,45 +64,9 @@ struct Arguments parse_params(int argc, char *argv[]) {
         args.cert_location = args.certaddr;
     }
 
-    parse_url(&args);
-
     return args;
 }
 
 void print_help() {
     std::cerr << "Usage: feedreader <URL | -f <feedfile>> [-c <certfile>] [-C <certaddr>] [-T] [-a] [-u]" << std::endl;
-}
-
-void parse_url(struct Arguments *args) {
-    std::string url = args->url;
-    args->use_ssl = false;
-    args->port = 80;
-    args->page =  "/";
-    bool success = true;
-    char page[STRING_LENGHT] = {0};
-    char ip[STRING_LENGHT] = {0};
-    if (sscanf(url.c_str(), "http://%99[^:]:%i/%199[^\n]", ip, &args->port, page) == 3) {
-    } else if (sscanf(url.c_str(), "http://%99[^/]/%199[^\n]", ip, page) == 2) {
-    } else if (sscanf(url.c_str(), "http://%99[^:]:%i[^\n]", ip, &args->port) == 2) {
-    } else if (sscanf(url.c_str(), "http://%99[^\n]", ip) == 1) {
-    } else if (sscanf(url.c_str(), "https://%99[^:]:%i/%199[^\n]", ip, &args->port, page) == 3) {
-        args->use_ssl = true;
-    } else if (sscanf(url.c_str(), "https://%99[^/]/%199[^\n]", ip, page) == 2) {
-        args->use_ssl = true;
-        args->port = 443;
-    } else if (sscanf(url.c_str(), "https://%99[^:]:%i[^\n]", ip, &args->port) == 2) {
-        args->use_ssl = true;
-    } else if (sscanf(url.c_str(), "https://%99[^\n]", ip) == 1) {
-        args->use_ssl = true;
-        args->port = 443;
-    } else {
-        success = false;
-    }
-
-    args->ip.assign(ip);
-    args->page.assign(page);
-
-    if (!success) {
-        args->ok = false;
-    }
 }
