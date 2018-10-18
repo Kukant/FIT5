@@ -1,18 +1,16 @@
 //
-// Created by zeusko on 14/10/18.
+// Created by xkukan00 on 09/10/18.
 //
 
 #include "xml_reader.h"
-#include "libxml/parser.h"
-#include "libxml/xmlIO.h"
-#include "libxml/xinclude.h"
-#include "libxml/tree.h"
 
 using namespace std;
 int processXml(std::string file, struct Arguments args) {
     xmlDocPtr doc = xmlParseDoc((const xmlChar *)file.c_str());
     xmlNode* feed = nullptr;
     xmlNode* rss = nullptr;
+
+
     string feed_name = "feed";
     string rss_name = "rss";
 

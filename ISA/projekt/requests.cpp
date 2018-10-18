@@ -1,5 +1,5 @@
 //
-// Created by zeusko on 10/10/18.
+// Created by xkukan00 on 09/10/18.
 //
 
 #include <netdb.h>
@@ -39,7 +39,7 @@ string get_response(string url, struct Arguments args) {
         ctx = SSL_CTX_new(SSLv23_client_method());
         if (!args.cert_location.empty()) {
             if(!SSL_CTX_load_verify_locations(ctx, args.cert_location.c_str(), nullptr)) {
-                cerr << "Could not load verify locations.\n" << endl;
+                cerr << "Could not verify certificate of server " << url_args.ip << "." << endl;
                 return "";
             }
         } else {

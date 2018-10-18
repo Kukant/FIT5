@@ -1,8 +1,10 @@
 //
-// Created by zeusko on 09/10/18.
+// Created by xkukan00 on 09/10/18.
 //
 
 #include "arguments.h"
+
+using namespace std;
 
 struct Arguments parse_params(int argc, char *argv[]) {
     struct Arguments args;
@@ -39,13 +41,13 @@ struct Arguments parse_params(int argc, char *argv[]) {
     }
 
     if (!args.use_url && optind < argc){
-        std::cerr << "Unexpected argument:" << argv[optind] << std::endl;
+        cerr << "Unexpected argument:" << argv[optind] << endl;
         args.ok = false;
         return args;
     }
 
     if (args.use_url && optind >= argc) {
-        std::cerr <<  "Expected URL or feedfile. Nothing given.\n";
+        cerr <<  "Expected URL or feedfile. Nothing given.\n";
         args.ok = false;
         return args;
     } else if (args.use_url && optind < argc){
@@ -53,7 +55,7 @@ struct Arguments parse_params(int argc, char *argv[]) {
     }
 
     if (!args.certfile.empty() && !args.certaddr.empty()) {
-        std::cerr <<  "Only -c or only -C can be specified, not both.\n";
+        cerr <<  "Only -c or only -C can be specified, not both.\n";
         args.ok = false;
         return args;
     }
@@ -68,5 +70,5 @@ struct Arguments parse_params(int argc, char *argv[]) {
 }
 
 void print_help() {
-    std::cerr << "Usage: feedreader <URL | -f <feedfile>> [-c <certfile>] [-C <certaddr>] [-T] [-a] [-u]" << std::endl;
+    cerr << "Usage: feedreader <URL | -f <feedfile>> [-c <certfile>] [-C <certaddr>] [-T] [-a] [-u]" << endl;
 }

@@ -1,5 +1,5 @@
 //
-// Created by zeusko on 09/10/18.
+// Created by xkukan00 on 09/10/18.
 //
 
 #ifndef PROJEKT_ARGUMENTS_H
@@ -9,8 +9,12 @@
 #include <string.h>
 #include <iostream>
 
-#define STRING_LENGHT 128
+#define STRING_LENGHT 256
 
+
+/**
+ * Struct for storing arguments of program and others.
+ */
 struct Arguments {
     std::string feedfile; // -f
     std::string url; // argument
@@ -28,10 +32,21 @@ struct Arguments {
     bool use_ssl;
 };
 
+/**
+ * Main function for parsing profram arguments
+ * @param argc num of args
+ * @param argv args
+ * @return filled Arguments struct. .ok is true if everything was ok.
+ */
 struct Arguments parse_params(int argc, char *argv[]);
 
 void print_help();
 
+
+/**
+ * Parsing url.
+ * @param args This function only fills url related arguments. ok. is true if url was valid.
+ */
 void parse_url(struct Arguments *args);
 
 #endif //PROJEKT_ARGUMENTS_H

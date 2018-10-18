@@ -1,3 +1,7 @@
+//
+// Created by xkukan00 on 09/10/18.
+//
+
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -9,6 +13,10 @@ using namespace std;
 
 int processResource(string & url, struct Arguments args) {
     string response = get_response(url, args);
+    if (response.empty()) {
+        cerr << "Skipping url " << url << endl;
+        return 1;
+    }
 
     unsigned long end_of_head = response.find("\r\n\r\n");
 
