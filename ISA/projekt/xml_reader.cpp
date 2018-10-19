@@ -160,6 +160,8 @@ int processAtom(xmlNode* feed, struct Arguments args) {
             AtomProcessEntry(tmp, args);
         }
     }
+
+    return 0;
 }
 
 void printTitle(char* title) {

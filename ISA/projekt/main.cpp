@@ -29,6 +29,8 @@ int processResource(string & url, struct Arguments args) {
     }
 
     processXml(response_body, args);
+
+    return 0;
 };
 
 int main(int argc, char **argv) {
