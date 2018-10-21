@@ -10,12 +10,20 @@ struct Arguments parse_params(int argc, char *argv[]) {
     struct Arguments args;
     memset(&args, 0, sizeof(struct Arguments));
     args.ok = true;
-    args.use_url = true;
+
+    // URL must be the first argument
+    if (argc > 1 && argv[1][0] != '-') {
+        optind++;
+        args.use_url = true;
+        args.url = argv[1];
+    } else {
+        args.use_url = false;
+    }
+
     int c;
     while((c = getopt(argc, argv, "f:c:C:auT")) != -1) {
         switch (c) {
             case 'f':
-                args.use_url = false;
                 args.feedfile.assign(optarg);
                 break;
             case 'c':
@@ -46,12 +54,10 @@ struct Arguments parse_params(int argc, char *argv[]) {
         return args;
     }
 
-    if (args.use_url && optind >= argc) {
+    if (!args.use_url && args.feedfile.empty() && optind >= argc) {
         cerr <<  "Expected URL or feedfile. Nothing given.\n";
         args.ok = false;
         return args;
-    } else if (args.use_url && optind < argc){
-        args.url = argv[optind];
     }
 
     if (!args.certfile.empty() && !args.certaddr.empty()) {

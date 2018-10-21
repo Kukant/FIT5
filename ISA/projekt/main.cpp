@@ -9,6 +9,8 @@
 #include "requests.h"
 #include "xml_reader.h"
 
+#define DEBUG true
+
 using namespace std;
 
 int processResource(string & url, struct Arguments args) {
@@ -40,10 +42,13 @@ int main(int argc, char **argv) {
         print_help();
         return 1;
     }
-    /*printf("ARGS: \n-f %s\n URL: %s, -c %s,-C %s,\n-a %d -u %d -T %d\n",
-            args.feedfile.c_str(), args.url.c_str(), args.certfile.c_str(), args.certaddr.c_str(),
-            args.show_author, args.show_url, args.show_time);
-    printf("ip: %s, port %d, page %s \n", args.ip.c_str(), args.port, args.page.c_str()); */
+
+    if (DEBUG) {
+        printf("ARGS: \n-f %s\n URL: %s, -c %s,-C %s,\n-a %d -u %d -T %d use-url %d\n",
+               args.feedfile.c_str(), args.url.c_str(), args.certfile.c_str(), args.certaddr.c_str(),
+               args.show_author, args.show_url, args.show_time, args.use_url);
+        printf("ip: %s, port %d, page %s \n", args.ip.c_str(), args.port, args.page.c_str());
+    }
 
     vector<string> urls;
 
