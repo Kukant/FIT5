@@ -5,7 +5,9 @@ XMLFLAGS=`xml2-config --cflags`
 XMLLIBS=`xml2-config --libs`
 
 
-all: feedreader run
+all: feedreader
+
+test: feedreader testonly
 
 feedreader: main.cpp arguments.cpp requests.cpp xml_reader.cpp
 		$(CC) $(CFLAGS) $(XMLFLAGS) -std=gnu++11 -o feedreader main.cpp arguments.cpp requests.cpp xml_reader.cpp -lssl -lcrypto $(XMLLIBS)
@@ -15,5 +17,8 @@ run:
 
 clean:
 		rm feedreader
+
+testonly:
+		./test.sh
 
 rebuild: clean feedreader

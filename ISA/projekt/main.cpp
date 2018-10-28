@@ -9,7 +9,7 @@
 #include "requests.h"
 #include "xml_reader.h"
 
-#define DEBUG true
+#define DEBUG false
 
 using namespace std;
 
@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
 
     if (args.use_url) {
         urls.emplace_back(args.url);
-    } else {
+    } else if (!args.feedfile.empty()){
         ifstream feedfile(args.feedfile);
 
         if(!feedfile.is_open()) {
@@ -66,6 +66,8 @@ int main(int argc, char **argv) {
             if (!line.empty() && line.compare(0, 1, "#") != 0)
                 urls.emplace_back(line);
         }
+    } else {
+        return 1;
     }
 
     for (auto &url : urls) {
