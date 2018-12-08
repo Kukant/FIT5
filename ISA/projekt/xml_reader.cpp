@@ -7,6 +7,12 @@
 using namespace std;
 int processXml(std::string file, struct Arguments args) {
     xmlDocPtr doc = xmlParseDoc((const xmlChar *)file.c_str());
+
+    if (doc == nullptr) {
+        cerr << "File is not valid RSS or ATOM format" << endl;
+        return -1;
+    }
+
     xmlNode* feed = nullptr;
     xmlNode* rss = nullptr;
 

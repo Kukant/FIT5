@@ -16,7 +16,7 @@ string get_response(string url, struct Arguments args) {
 
     BIO* bio = nullptr;
     SSL_CTX* ctx = nullptr;
-    SSL* ssl;
+    SSL* ssl = nullptr;
 
     struct Arguments url_args;
     url_args.ok = true;
@@ -63,6 +63,14 @@ string get_response(string url, struct Arguments args) {
         cerr << "Error: " << ERR_reason_error_string(ERR_get_error()) << endl;
         cerr << ERR_error_string(ERR_get_error(), nullptr)<< endl;
         return "";
+    }
+
+    if (ssl != nullptr) {
+        long c = SSL_get_verify_result(ssl);
+        if (c != X509_V_OK || SSL_get_peer_certificate(ssl) == nullptr) {
+            cerr << "Could not verify certificate of server " << url_args.ip << "." << endl;
+            return "";
+        }
     }
 
     char buffer[STRING_LENGHT] = {0};
