@@ -1,0 +1,114 @@
+Společná část popisu:
+Vytvořte komunikující aplikaci podle konkrétní vybrané specifikace pomocí síťové knihovny BSD sockets (pokud není ve variantě zadání uvedeno jinak). Projekt bude vypracován v jazyce C/C++. Pokud individuální zadání nespecifikuje vlastní referenční systém, musí být projekt přeložitelný a spustitelný na serveru merlin.fit.vutbr.cz pod operačním systémem Linux.
+
+Vypracovaný projekt uložený v archívu .tar a se jménem xlogin00.tar odevzdejte elektronicky přes IS. Soubor nekomprimujte.
+Termín odevzdání je 19.11.2018 (hard deadline). Odevzdání e-mailem po uplynutí termínu, dodatečné opravy či doplnění kódu není možné.
+Odevzdaný projekt musí obsahovat:
+soubor se zdrojovým kódem (dodržujte jména souborů uvedená v konkrétním zadání),
+funkční Makefile pro překlad zdrojového souboru,
+dokumentaci (soubor manual.pdf), která bude obsahovat uvedení do problematiky, návrhu aplikace, popis implementace, základní informace o programu, návod na použití. V dokumentaci se očekává následující: titulní strana, obsah, logické strukturování textu, přehled nastudovaných informací z literatury, popis zajímavějších pasáží implementace, použití vytvořených programů a literatura.
+soubor README obsahující krátký textový popis programu s případnými rozšířeními/omezeními, příklad spuštění a seznam odevzdaných souborů,
+další požadované soubory podle konkrétního typu zadání.
+Pokud v projektu nestihnete implementovat všechny požadované vlastnosti, je nutné veškerá omezení jasně uvést v dokumentaci a v souboru README.
+Co není v zadání jednoznačně uvedeno, můžete implementovat podle svého vlastního výběru. Zvolené řešení popište v dokumentaci.
+Při řešení projektu respektujte zvyklosti zavedené v OS unixového typu (jako je například formát textového souboru).
+Vytvořené programy by měly být použitelné a smysluplné, řádně komentované a formátované a členěné do funkcí a modulů. Program by měl obsahovat nápovědu informující uživatele o činnosti programu a jeho parametrech. Případné chyby budou intuitivně popisovány uživateli.
+Aplikace nesmí v žádném případě skončit s chybou SEGMENTATION FAULT ani jiným násilným systémovým ukončením (např. dělení nulou).
+Pokud přejímáte krátké pasáže zdrojových kódů z různých tutoriálů či příkladů z Internetu (ne mezi sebou), tak je nutné vyznačit tyto sekce a jejich autory dle licenčních podmínek, kterými se distribuce daných zdrojových kódů řídí. V případě nedodržení bude na projekt nahlíženo jako na plagiát.
+Konzultace k projektu podává vyučující, který zadání vypsal.
+Před odevzdáním zkontrolujte, zda jste dodrželi všechna jména souborů požadovaná ve společné části zadání i v zadání pro konkrétní projekt. Zkontrolujte, zda je projekt přeložitelný.
+Hodnocení projektu:
+Maximální počet bodů za projekt je 20 bodů.
+Maximálně 15 bodů za plně funkční aplikace.
+Maximálně 5 bodů za dokumentaci. Dokumentace se hodnotí pouze v případě funkčního kódu. Pokud kód není odevzdán nebo nefunguje podle zadání, dokumentace se nehodnotí.
+Příklad kriterií pro hodnocení projektů:
+nepřehledný, nekomentovaný zdrojový text: až -7 bodů
+nefunkční či chybějící Makefile: až -4 body
+nekvalitní či chybějící dokumentace: až -5 bodů
+nedodržení formátu vstupu/výstupu či konfigurace: -10 body
+odevzdaný soubor nelze přeložit, spustit a odzkoušet: 0 bodů
+odevzdáno po termínu: 0 bodů
+nedodržení zadání: 0 bodů
+nefunkční kód: 0 bodů
+opsáno: 0 bodů (pro všechny, kdo mají stejný kód), návrh na zahájení disciplinárního řízení.
+Popis varianty:
+Napište program feedreader, který bude vypisovat informace uvedené ve stažených zdrojích (feed) ve formátu Atom a RSS. Program po spuštění stáhne zadané zdroje a na standardní výstup vypíše informace požadované uživatelem (např. názvy článků).
+
+Při vytváření programu je povoleno použít hlavičkové soubory pro práci se sokety a další obvyklé funkce používané v síťovém prostředí (jako je netinet/*, sys/*, arpa/* apod.), knihovnu pro práci s vlákny (pthread), signály, časem, stejně jako standardní knihovnu jazyka C (varianty ISO/ANSI i POSIX), C++ a STL. Pro práci s daty ve formátu XML je doporučená knihovna libxml2, případně jiné knihovny dostupné na serveru merlin a eva. Pro práci s TLS je doporučená knihovna openssl, případně jiné knihovny dostupné na serveru merlin a eva. Pro práci s XML a TLS můžete použít i jiné knihovny, musí však být jasně označeny, že jde o převzatý kód a musí být součástí odevzdávaného archivu. Jiné knihovny nejsou povoleny.
+
+Spuštění aplikace
+Použití: feedreader <URL | -f <feedfile>> [-c <certfile>] [-C <certaddr>] [-T] [-a] [-u]
+
+Pořadí parametrů je libovolné. Popis parametrů:
+Povinně je uveden buď URL požadovaného zdroje (přičemž podporovaná schémata jsou http a https), nebo parametr -f s dodatečným parametrem určujícího umístění souboru feedfile. Soubor feedfile je textový soubor, kde je na každém řádku uvedena jedna adresa zdroje ve formátu Atom, či RSS. Prázdné řádky v souboru feedfile ignorujte. Řádky začínající znakem '#' v souboru feedfile ignorujte, jsou to komentáře.  Soubor feedfile je obvyklý Unixový textový soubor, tzn. poslední znak na každém řádků je LF. Z toho také vyplývá, že poslední znak v souboru je LF.
+Volitelný parametr -c definuje soubor <certfile> s certifikáty, který se použije pro ověření platnosti certifikátu SSL/TLS předloženého serverem.
+Volitelný parametr -C určuje adresář <certaddr>, ve kterém se mají vyhledávat certifikáty, které se použijí pro ověření platnosti certifikátu SSL/TLS předloženého serverem.
+Pokud není uveden parametr -c ani -C, pak použijte úložiště certifikátů získané funkcí SSL_CTX_set_default_verify_paths().
+Při spuštění s parametrem -T se pro každý záznam zobrazí navíc informace o čase změny záznamu, či vytvoření záznamu (je-li ve staženém souboru obsaženo).
+Při spuštění s parametrem -a se pro každý záznam zobrazí jméno autora, či jeho e-mailová adresa (je-li ve staženém souboru obsaženo).
+Při spuštění s parametrem -u se pro každý záznam zobrazí asociované URL (je-li ve staženém souboru obsaženo).
+Výstup aplikace
+Pro každý zdroj vypisujte informace v následujícím tvaru:
+1. řádek: Název zdroje uvozený znaky "*** " a ukončený znaky " ***", např. "*** FIT VUT v Brně ***".
+Na dalších řádcích budou uvedeny jednotlivé záznamy. V základním tvaru na každém řádku titulek jednotlivých záznamů, např. "10.5.2017 Erasmus+ výjezdy a zahraniční stáže/praxe".
+V případě použití parametrů -T, -a a -u budou na dalších řádcích pod zdrojem uvedeny další dodatečné informace uvozeny řetězcem "Aktualizace: ", "Autor: ", respektive "URL: ". Při použití dodatečných atributů budou od sebe jednotlivé záznamy odděleny jedním prázdným řádkem.
+V případě použití parametru -f budou od sebe jednotlivé zdroje odděleny jedním volným řádkem.
+Příklady vstupů
+Příklad souboru feedfile:
+
+# FIT
+http://www.fit.vutbr.cz/news/news-rss.php
+# IETF
+https://tools.ietf.org/agenda/atom
+https://tools.ietf.org/dailydose/dailydose_atom.xml
+#Wikipedia
+https://en.wikipedia.org/w/api.php?hidebots=1&days=7&limit=50&hidewikidata=1&action=feedrecentchanges&feedformat=atom
+#The register
+https://www.theregister.co.uk/headlines.atom
+https://www.theregister.co.uk/data_centre/headlines.atom
+https://www.theregister.co.uk/software/headlines.atom
+https://www.theregister.co.uk/hardware/headlines.atom
+#xkcd
+https://xkcd.com/atom.xml
+https://what-if.xkcd.com/feed.atom
+
+Příklad spuštění programu
+$ feedreader https://tools.ietf.org/dailydose/dailydose_atom.xml
+*** The Daily Dose of IETF ***
+The Daily Dose of IETF - Issue 3192 - 2018-09-18
+The Daily Dose of IETF - Issue 3191 - 2018-09-17
+...
+
+$ feedreader https://tools.ietf.org/dailydose/dailydose_atom.xml -u
+*** The Daily Dose of IETF ***
+The Daily Dose of IETF - Issue 3192 - 2018-09-18
+URL: https://tools.ietf.org/dailydose/3192.html
+
+The Daily Dose of IETF - Issue 3191 - 2018-09-17
+URL: https://tools.ietf.org/dailydose/3191.html
+...
+
+$ feedreader https://tools.ietf.org/dailydose/dailydose_atom.xml -u -T
+*** The Daily Dose of IETF ***
+The Daily Dose of IETF - Issue 3192 - 2018-09-18
+URL: https://tools.ietf.org/dailydose/3192.html
+Aktualizace: 2018-09-18T05:00:15Z
+...
+
+$ feedreader https://tools.ietf.org/dailydose/dailydose_atom.xml -C /dev/null
+Chyba: nepodařilo se ověřit platnost certifikátu serveru tools.ietf.org
+
+Doplňující informace k zadání
+Veškeré vstupy mohou obsahovat chyby.
+Veškeré chyby vypisujte srozumitelně na stderr.
+V rámci URL je možné volitelně specifikovat číslo portu.
+Pokud uživatel používá TLS, spojení se uskuteční pouze pokud je použitý certifikát důvěryhodný.
+V rámci komunikace HTTP nemusíte řešit přesměrování.
+Pokud je použit feedfile a zpracování jednoho ze zdrojů selže, program vypíše chyby a pokračuje dalšími zdroji.
+V dokumentaci popište, jakým způsobem řešíte vypisování doplňujících informací k jednotlivým zdrojům. (URL, čas, autor).
+Vytvořený kód by měl být modulární a otestovaný.
+Pište robustní aplikace, které budou vstřícné k drobným odchylkám od specifikace (např. porušení přítomnosti povinných elementů).
+Referenční prostředí pro překlad a testování
+Program by měl být přenositelný. Referenční prostředí pro překlad budou servery eva.fit.vutbr.cz a merlin.fit.vutbr.cz (program musí být přeložitelný a funkční na obou systémech). Vlastní testování může probíhat na jiném počítači s nainstalovaným OS GNU/Linux, či FreeBSD, včetně jiných architektur než Intel/AMD, jiných distribucí, jiných verzí knihoven apod. Pokud vyžadujete minimální verzi knihovny (dostupné na serveru merlin a eva), jasně tuto skutečnost označte v dokumentaci a README.
+
+Testy, které jste při řešení projektu napsali se spustí voláním "make test".
